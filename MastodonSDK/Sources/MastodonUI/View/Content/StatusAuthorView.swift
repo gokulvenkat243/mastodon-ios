@@ -128,7 +128,7 @@ extension StatusAuthorView {
 
         // avatar button
         avatarButton.addTarget(self, action: #selector(StatusAuthorView.authorAvatarButtonDidPressed(_:)), for: .touchUpInside)
-        authorNameLabel.isUserInteractionEnabled = false
+        authorNameLabel.isUserInteractionEnabled = true
         authorUsernameLabel.isUserInteractionEnabled = false
 
         // contentSensitiveeToggleButton
@@ -136,6 +136,7 @@ extension StatusAuthorView {
 
         // dateLabel
         dateLabel.isUserInteractionEnabled = false
+        self.addTapGestureToAuthorName()
     }
 }
 
@@ -215,10 +216,20 @@ extension StatusAuthorView {
         return (menu, accessibilityActions)
     }
 
+    private func addTapGestureToAuthorName() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(StatusAuthorView.authorNameDidPressed(_:)))
+        authorNameLabel.addGestureRecognizer(tapGesture)
+    }
 }
 
 extension StatusAuthorView {
     @objc private func authorAvatarButtonDidPressed(_ sender: UIButton) {
+        guard let statusView = statusView else { return }
+
+        statusView.delegate?.statusView(statusView, authorAvatarButtonDidPressed: avatarButton)
+    }
+
+    @objc private func authorNameDidPressed(_ sender: UIButton) {
         guard let statusView = statusView else { return }
 
         statusView.delegate?.statusView(statusView, authorAvatarButtonDidPressed: avatarButton)
