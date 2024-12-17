@@ -41,7 +41,7 @@ extension SearchResultSection {
         return UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, item -> UITableViewCell? in
             switch item {
                 case .account(let account, let relationship):
-                    let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as! UserTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as? UserTableViewCell else { fatalError("WTF?! Wrong cell.") }
 
                     guard let me = authenticationBox.cachedAccount else { return cell }
 
@@ -55,7 +55,8 @@ extension SearchResultSection {
                     )
                 return cell
             case .status(let status):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatusTableViewCell.self), for: indexPath) as! StatusTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatusTableViewCell.self), for: indexPath) as?
+                        StatusTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 let displayItem = StatusTableViewCell.StatusTableViewCellViewModel.DisplayItem.status(status)
                 let contentConcealModel = StatusView.ContentConcealViewModel(status: status, filterBox: StatusFilterService.shared.activeFilterBox, filterContext: nil) // no filters in search results
                 configure(
@@ -66,7 +67,7 @@ extension SearchResultSection {
                 )
                 return cell
             case .hashtag(let tag):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HashtagTableViewCell.self)) as! HashtagTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HashtagTableViewCell.self)) as? HashtagTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.primaryLabel.configure(content: PlaintextMetaContent(string: "#" + tag.name))
                 return cell
             case .bottomLoader(let attribute):

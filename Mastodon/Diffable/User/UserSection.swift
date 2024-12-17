@@ -34,7 +34,7 @@ extension UserSection {
             item -> UITableViewCell? in
             switch item {
                 case .account(let account, let relationship):
-                    let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UserTableViewCell.self), for: indexPath) as! UserTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UserTableViewCell.self), for: indexPath) as? UserTableViewCell else { fatalError("WTF?! Wrong cell.") }
 
                     guard let me = authenticationBox.cachedAccount else { return cell }
 
@@ -49,11 +49,11 @@ extension UserSection {
 
                     return cell
                 case .bottomLoader:
-                    let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as! TimelineBottomLoaderTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
                     cell.startAnimating()
                     return cell
                 case .bottomHeader(let text):
-                    let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineFooterTableViewCell.self), for: indexPath) as! TimelineFooterTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineFooterTableViewCell.self), for: indexPath) as? TimelineFooterTableViewCell else { fatalError("WTF?! Wrong cell.") }
                     cell.messageLabel.text = text
                     return cell
             }

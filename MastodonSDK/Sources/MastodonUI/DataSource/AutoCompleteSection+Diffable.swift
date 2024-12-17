@@ -19,23 +19,23 @@ extension AutoCompleteSection {
         UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, item in
             switch item {
             case .hashtag(let hashtag):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as! AutoCompleteTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as? AutoCompleteTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 configureHashtag(cell: cell, hashtag: hashtag)
                 return cell
             case .hashtagV1(let hashtagName):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as! AutoCompleteTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as? AutoCompleteTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 configureHashtag(cell: cell, hashtagName: hashtagName)
                 return cell
             case .account(let account):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as! AutoCompleteTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as? AutoCompleteTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 configureAccount(cell: cell, account: account)
                 return cell
             case .emoji(let emoji):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as! AutoCompleteTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AutoCompleteTableViewCell.self), for: indexPath) as? AutoCompleteTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 configureEmoji(cell: cell, emoji: emoji, isFirst: indexPath.row == 0)
                 return cell
             case .bottomLoader:
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as! TimelineBottomLoaderTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.startAnimating()
                 return cell
             }

@@ -40,12 +40,12 @@ extension ReportSection {
         return UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, item -> UITableViewCell? in
             switch item {
             case .header(let headerContext):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportHeadlineTableViewCell.self), for: indexPath) as! ReportHeadlineTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportHeadlineTableViewCell.self), for: indexPath) as? ReportHeadlineTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.primaryLabel.text = headerContext.primaryLabelText
                 cell.secondaryLabel.text = headerContext.secondaryLabelText
                 return cell
             case .status(let status):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportStatusTableViewCell.self), for: indexPath) as! ReportStatusTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportStatusTableViewCell.self), for: indexPath) as? ReportStatusTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 configure(
                     tableView: tableView,
                     cell: cell,
@@ -54,7 +54,7 @@ extension ReportSection {
                 )
                 return cell
             case .comment(let commentContext):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportCommentTableViewCell.self), for: indexPath) as! ReportCommentTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportCommentTableViewCell.self), for: indexPath) as? ReportCommentTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.commentTextView.text = commentContext.comment
                 NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: cell.commentTextView)
                     .receive(on: DispatchQueue.main)
@@ -71,7 +71,7 @@ extension ReportSection {
                     .store(in: &cell.disposeBag)
                 return cell
             case .bottomLoader:
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as! TimelineBottomLoaderTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.activityIndicatorView.startAnimating()
                 return cell
             }

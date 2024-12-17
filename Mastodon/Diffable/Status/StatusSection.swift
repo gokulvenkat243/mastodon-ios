@@ -42,7 +42,7 @@ extension StatusSection {
         return UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, item -> UITableViewCell? in
             switch item {
             case .feed(let feed):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatusTableViewCell.self), for: indexPath) as! StatusTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatusTableViewCell.self), for: indexPath) as? StatusTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 let displayItem = StatusTableViewCell.StatusTableViewCellViewModel.DisplayItem.feed(feed)
                 let contentConcealModel = StatusView.ContentConcealViewModel(status: feed.status, filterBox: StatusFilterService.shared.activeFilterBox, filterContext: configuration.filterContext)
                 configure(
@@ -53,7 +53,7 @@ extension StatusSection {
                 )
                 return cell
             case .feedLoader(let feed):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineMiddleLoaderTableViewCell.self), for: indexPath) as! TimelineMiddleLoaderTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineMiddleLoaderTableViewCell.self), for: indexPath) as? TimelineMiddleLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 configure(
                     cell: cell,
                     feed: feed,
@@ -61,7 +61,7 @@ extension StatusSection {
                 )
                 return cell
             case .status(let status):
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatusTableViewCell.self), for: indexPath) as! StatusTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatusTableViewCell.self), for: indexPath) as? StatusTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 let displayItem = StatusTableViewCell.StatusTableViewCellViewModel.DisplayItem.status(status)
                 let contentConcealModel = StatusView.ContentConcealViewModel(status: status, filterBox: StatusFilterService.shared.activeFilterBox, filterContext: configuration.filterContext)
                 configure(
@@ -82,11 +82,11 @@ extension StatusSection {
                 )
                 return cell
             case .topLoader:
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as! TimelineBottomLoaderTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.activityIndicatorView.startAnimating()
                 return cell
             case .bottomLoader:
-                let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as! TimelineBottomLoaderTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
                 cell.activityIndicatorView.startAnimating()
                 return cell
             }

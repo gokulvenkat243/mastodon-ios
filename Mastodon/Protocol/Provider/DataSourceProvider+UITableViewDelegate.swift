@@ -71,7 +71,7 @@ extension UITableViewDelegate where Self: DataSourceProvider & MediaPreviewableV
         indexPath: IndexPath, point: CGPoint
     ) -> UIContextMenuConfiguration? {
 
-        guard let cell = tableView.cellForRow(at: indexPath) as? StatusViewContainerTableViewCell else { return nil }
+        guard let cell = tableView.cellForRow(at: indexPath) as? StatusViewContainerTableViewCell else { fatalError("WTF?! Wrong cell.") }
 
         let mediaViews = cell.statusView.mediaGridContainerView.mediaViews
         
