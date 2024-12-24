@@ -20,6 +20,10 @@ final class SearchHistoryViewModel {
     // output
     var diffableDataSource: UICollectionViewDiffableDataSource<SearchHistorySection, SearchHistoryItem>?
 
+    public var isRecentSearchEmpty: Bool {
+        return items.isEmpty
+    }
+    
     init(authenticationBox: MastodonAuthenticationBox) {
         self.authenticationBox = authenticationBox
         self.items = (try? FileManager.default.searchItems(for: authenticationBox)) ?? []

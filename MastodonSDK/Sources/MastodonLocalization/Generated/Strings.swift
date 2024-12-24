@@ -1464,6 +1464,8 @@ public enum L10n {
         }
         /// Recent searches
         public static let recentSearch = L10n.tr("Localizable", "Scene.Search.Searching.RecentSearch", fallback: "Recent searches")
+        /// No search results
+        public static let noSearchResults = L10n.tr("Localizable", "Scene.Search.Searching.NoSearchResults", fallback: "No recent searches.")
         /// Open URL in Mastodon
         public static let url = L10n.tr("Localizable", "Scene.Search.Searching.Url", fallback: "Open URL in Mastodon")
         public enum EmptyState {

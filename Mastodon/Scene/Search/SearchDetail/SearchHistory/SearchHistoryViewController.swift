@@ -10,6 +10,8 @@ import Combine
 import CoreDataStack
 import MastodonCore
 import MastodonUI
+import MastodonLocalization
+import MastodonAsset
 
 final class SearchHistoryViewController: UIViewController {
 
@@ -27,6 +29,14 @@ final class SearchHistoryViewController: UIViewController {
         collectionView.keyboardDismissMode = .onDrag
         return collectionView
     }()
+
+    private let noSearchResultLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.text = L10n.Scene.Search.Searching.noSearchResults
+        label.textColor = .secondaryLabel
+        label.isHidden = true  // Initially Hiden
+        return label
+    }()
 }
 
 extension SearchHistoryViewController {
@@ -38,7 +48,8 @@ extension SearchHistoryViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         collectionView.pinToParent()
-        
+        self.setupNoSearchResultLabel()
+        updateNoRecentSearchLabelUI()
         collectionView.delegate = self
         viewModel.setupDiffableDataSource(
             collectionView: collectionView,
@@ -48,6 +59,22 @@ extension SearchHistoryViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         viewModel.items = (try? FileManager.default.searchItems(for: authenticationBox)) ?? []
+    }
+
+    private func setupNoSearchResultLabel() {
+        noSearchResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(noSearchResultLabel)
+        NSLayoutConstraint.activate([
+            noSearchResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noSearchResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    private func updateNoRecentSearchLabelUI() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.noSearchResultLabel.isHidden = !self.viewModel.isRecentSearchEmpty
+        }
     }
 }
 
@@ -101,6 +128,7 @@ extension SearchHistoryViewController: SearchHistorySectionHeaderCollectionReusa
     ) {
         FileManager.default.removeSearchHistory(for: authenticationBox)
         viewModel.items = []
+        self.updateNoRecentSearchLabelUI()
     }
 }
 
@@ -108,5 +136,6 @@ extension SearchHistoryViewController: SearchHistorySectionHeaderCollectionReusa
 extension SearchHistoryViewController: SearchResultOverviewCoordinatorDelegate {
     func newSearchHistoryItemAdded(_ coordinator: SearchResultOverviewCoordinator) {
         viewModel.items = (try? FileManager.default.searchItems(for: authenticationBox)) ?? []
+        self.updateNoRecentSearchLabelUI()
     }
 }
