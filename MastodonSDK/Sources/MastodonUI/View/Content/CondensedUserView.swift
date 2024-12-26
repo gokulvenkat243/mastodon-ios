@@ -39,6 +39,8 @@ public class CondensedUserView: UIView {
 
         displayNameLabel = MetaLabel(style: .statusName)
         displayNameLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        displayNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        displayNameLabel.isUserInteractionEnabled = false
         displayNameLabel.setContentHuggingPriority(.required, for: .horizontal)
 
         acctLabel = UILabel()
