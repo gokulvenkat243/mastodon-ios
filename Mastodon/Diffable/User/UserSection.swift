@@ -34,7 +34,10 @@ extension UserSection {
             item -> UITableViewCell? in
             switch item {
                 case .account(let account, let relationship):
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UserTableViewCell.self), for: indexPath) as? UserTableViewCell else { fatalError("WTF?! Wrong cell.") }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UserTableViewCell.self), for: indexPath) as? UserTableViewCell else {
+                    assertionFailure("unexpected cell dequeued")
+                    return nil
+                }
 
                     guard let me = authenticationBox.cachedAccount else { return cell }
 
@@ -49,11 +52,16 @@ extension UserSection {
 
                     return cell
                 case .bottomLoader:
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { fatalError("WTF?! Wrong cell.") }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineBottomLoaderTableViewCell.self), for: indexPath) as? TimelineBottomLoaderTableViewCell else { assertionFailure("unexpected cell dequeued")
+                    return nil
+                }
                     cell.startAnimating()
                     return cell
                 case .bottomHeader(let text):
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineFooterTableViewCell.self), for: indexPath) as? TimelineFooterTableViewCell else { fatalError("WTF?! Wrong cell.") }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TimelineFooterTableViewCell.self), for: indexPath) as? TimelineFooterTableViewCell else {
+                    assertionFailure("unexpected cell dequeued")
+                    return nil
+                }
                     cell.messageLabel.text = text
                     return cell
             }
