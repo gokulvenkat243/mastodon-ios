@@ -169,7 +169,7 @@ extension StatusSection {
                 guard let cell: PollOptionTableViewCell = {
                     let _cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PollOptionTableViewCell.self) + "@\(indexPath.row)#\(indexPath.section)") as? PollOptionTableViewCell
                     _cell?.prepareForReuse()
-                    return _cell ?? PollOptionTableViewCell()
+                    return _cell
                 }() else {
                     assertionFailure("unexpected cell dequeued")
                     return nil
@@ -204,7 +204,7 @@ extension StatusSection {
                 guard let cell: PollOptionTableViewCell = {
                     let _cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PollOptionTableViewCell.self) + "@\(indexPath.row)#\(indexPath.section)") as? PollOptionTableViewCell
                     _cell?.prepareForReuse()
-                    return _cell ?? PollOptionTableViewCell()
+                    return _cell
                 }() else {
                     assertionFailure("unexpected cell dequeued")
                     return nil

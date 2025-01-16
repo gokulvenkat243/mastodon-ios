@@ -221,7 +221,6 @@ extension UITableViewDelegate where Self: DataSourceProvider & MediaPreviewableV
             parameters.visiblePath = UIBezierPath(roundedRect: mediaView.bounds, cornerRadius: MediaView.cornerRadius)
             return UITargetedPreview(view: mediaView, parameters: parameters)
         } else {
-            assertionFailure("unexpected cell dequeued")
             return nil
         }
     }
